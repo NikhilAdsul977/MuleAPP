@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d62e1e66-c0f8-4613-8398-2f542e6ec0d9" >
+		<http:request-connection protocol="HTTPS" host="api.publicapis.org" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a60fdc41-5f4f-401c-b733-36eb54e18aa9" basePath="/session01" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="InvokePublicAPIFlow" doc:id="9c232fc9-5316-4319-89e1-ff39a52e46fd" >
+		<http:listener doc:name="Listener" doc:id="fc45211b-223c-4850-ba6a-b513a6794504" config-ref="HTTP_Listener_config" path="/invokePublicAPI"/>
+		<http:request method="GET" doc:name="Request-PublicAPI" doc:id="e22d4e24-aff0-45b4-ba12-d62480b88056" config-ref="HTTP_Request_configuration" path="/entries"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0127268d-1f43-49d1-a7c3-c80bc4d0e098" message="#[payload]"/>
+	</flow>
+</mule>
